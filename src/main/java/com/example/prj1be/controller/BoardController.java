@@ -9,6 +9,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
+
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/board")
@@ -26,5 +28,10 @@ public class BoardController {
         } else {
             return ResponseEntity.internalServerError().build();
         }
+    }
+
+    @PostMapping("list")
+    public List<String> list(@RequestBody Board board) {
+        return service.getList(board);
     }
 }
