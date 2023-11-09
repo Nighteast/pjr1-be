@@ -10,12 +10,14 @@ import java.util.List;
 
 @Mapper
 public interface BoardMapper {
+    //게시글 저장 맵퍼
     @Insert("""
             INSERT INTO board (title, content, writer)
             Values (#{title}, #{content}, #{writer})
             """)
     int insert(Board board);
 
+    // 게시글 리스트 보기 맵퍼
     @Select("""
             SELECT id, title, writer, inserted
             FROM board
@@ -23,6 +25,7 @@ public interface BoardMapper {
             """)
     List<Board> selectAll();
 
+    // 한 게시글 보기 맵퍼
     @Select("""
             SELECT id, title, content, writer, inserted
             FROM board
@@ -30,6 +33,7 @@ public interface BoardMapper {
             """)
     Board selectById(Integer id);
 
+    // 게시글 삭제 맵퍼
     @Delete("""
             DELETE FROM board
             WHERE id = #{id}

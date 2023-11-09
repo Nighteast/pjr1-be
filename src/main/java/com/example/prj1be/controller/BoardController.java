@@ -15,11 +15,14 @@ public class BoardController {
 
     private final BoardService service;
 
+    // 게시글 작성 기능
     @PostMapping("add")
     public ResponseEntity add(@RequestBody Board board) {
+        // 인증이 false면 badRequest 응답 보내기
         if (!service.validate(board)) {
             return ResponseEntity.badRequest().build();
         }
+        // 저장이 true면 ok응답, false면 internalServerError응답
         if (service.save(board)) {
             return ResponseEntity.ok().build();
         } else {
@@ -27,18 +30,22 @@ public class BoardController {
         }
     }
 
+    // 게시글 리스트 보기 기능
     @GetMapping("list")
     public List<Board> list() {
         return service.list();
     }
 
+    // 한 게시글 보기 기능
     @GetMapping("id/{id}")
     public Board get(@PathVariable Integer id) {
         return service.get(id);
     }
 
+    // 게시글 삭제 기능
     @DeleteMapping("remove/{id}")
     public ResponseEntity remove(@PathVariable Integer id) {
+        // remove가 true면 ok응답, false면 internalServerError응답
         if (service.remove(id)) {
             return ResponseEntity.ok().build();
         } else {
