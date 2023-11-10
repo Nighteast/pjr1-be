@@ -9,7 +9,7 @@ public interface MemberMapper {
 
 
     @Insert("""
-            INSERT INTO member (id, password, emil)
+            INSERT INTO member (id, password, email)
             VALUES (#{id}, #{password}, #{email})
             """)
     int insert(Member member);
