@@ -19,4 +19,9 @@ public class MemberService {
     public String getId(String id) {
         return mapper.selectId(id);
     }
+
+    // 이메일 중복 확인 서비스
+    public String getEmail(String email) {
+        return mapper.selectEmail(email);
+    }
 }

@@ -21,4 +21,11 @@ public interface MemberMapper {
             WHERE id = #{id}
             """)
     String selectId(String id);
+
+    // 이메일 중복 확인 매퍼
+    @Select("""
+            SELECT email FROM member
+            WHERE email = #{email}
+            """)
+    String selectEmail(String email);
 }
