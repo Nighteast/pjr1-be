@@ -11,8 +11,8 @@ public class MemberService {
 
     private final MemberMapper mapper;
 
-    public void add(Member member) {
-        mapper.insert(member);
+    public boolean add(Member member) {
+        return mapper.insert(member) == 1;
     }
 
     // ID 중복 확인 서비스
@@ -24,4 +24,22 @@ public class MemberService {
     public String getEmail(String email) {
         return mapper.selectEmail(email);
     }
+
+    // 회원가입 검증 서비스
+    public boolean validate(Member member) {
+        if (member == null) {
+            return false;
+        }
+        if (member.getEmail().isBlank()) {
+            return false;
+        }
+        if (member.getPassword().isBlank()) {
+            return false;
+        }
+        if (member.getId().isBlank()) {
+            return false;
+        }
+        return true;
+    }
+
 }
