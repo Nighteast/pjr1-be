@@ -5,6 +5,8 @@ import com.example.prj1be.mapper.MemberMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 public class MemberService {
@@ -42,4 +44,8 @@ public class MemberService {
         return true;
     }
 
+    // 회원 목록 보기 서비스
+    public List<Member> list() {
+        return mapper.selectAll();
+    }
 }
