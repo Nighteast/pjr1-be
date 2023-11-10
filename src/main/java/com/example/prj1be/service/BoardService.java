@@ -54,7 +54,7 @@ public class BoardService {
     }
 
     // 게시글 수정 서비스
-    public void update(Board board) {
-        mapper.update(board);
+    public boolean update(Board board) {
+        return mapper.update(board) == 1;
     }
 }

@@ -45,5 +45,5 @@ public interface BoardMapper {
                 writer=#{writer}
             WHERE id = #{id}
             """)
-    void update(Board board);
+    int update(Board board);
 }
