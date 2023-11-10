@@ -36,7 +36,7 @@ public class BoardController {
         return service.list();
     }
 
-    // 한 게시글 보기 기능
+    // 한 게시글 보기 기능, id에 맞는 board값 가져오기
     @GetMapping("id/{id}")
     public Board get(@PathVariable Integer id) {
         return service.get(id);
