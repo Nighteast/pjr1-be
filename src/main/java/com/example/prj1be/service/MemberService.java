@@ -14,4 +14,9 @@ public class MemberService {
     public void add(Member member) {
         mapper.insert(member);
     }
+
+    // ID 중복 확인 서비스
+    public String getId(String id) {
+        return mapper.selectId(id);
+    }
 }
