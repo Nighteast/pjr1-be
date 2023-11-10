@@ -52,4 +52,9 @@ public class BoardService {
     public boolean remove(Integer id) {
         return mapper.deleteById(id) == 1;
     }
+
+    // 게시글 수정 서비스
+    public void update(Board board) {
+        mapper.update(board);
+    }
 }

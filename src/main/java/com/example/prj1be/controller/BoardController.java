@@ -52,4 +52,11 @@ public class BoardController {
             return ResponseEntity.internalServerError().build();
         }
     }
+
+    // 게시글 수정 기능
+    @PutMapping("edit")
+    public void edit(@RequestBody Board board) {
+//        System.out.println("board = " + board);
+        service.update(board);
+    }
 }
