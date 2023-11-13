@@ -38,7 +38,7 @@ public interface MemberMapper {
 
     // 회원 목록 보기 매퍼
     @Select("""
-            SELECT id, password, email, inserted
+            SELECT id, password, nickName, email, inserted
             FROM member
             ORDER BY inserted DESC;
             """)
