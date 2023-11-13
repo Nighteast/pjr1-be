@@ -55,4 +55,8 @@ public class MemberService {
     }
 
 
+    // 회원 정보 보기 - 회원 탈퇴 서비스
+    public boolean deleteMember(String id) {
+        return mapper.deleteById(id) == 1;
+    }
 }

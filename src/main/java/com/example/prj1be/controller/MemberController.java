@@ -58,8 +58,23 @@ public class MemberController {
     // 회원 목록 상세 보기 컨트롤러
     @GetMapping
     public ResponseEntity<Member> view(String id) {
+        // TODO : 로그인 했는 지? => 안 했으면 401
+        // TODO : 자기 정보인지? => 아니면 403
+
         Member member = service.getMember(id);
 
         return ResponseEntity.ok(member);
+    }
+
+    // 회원 목록 상세보기 - 회원 탈퇴 기능
+    @DeleteMapping
+    public ResponseEntity delete(String id) {
+        // TODO : 로그인 했는 지? => 안 했으면 401
+        // TODO : 자기 정보인지? => 아니면 403
+
+        if (service.deleteMember(id)) {
+            return ResponseEntity.ok().build();
+        }
+            return ResponseEntity.internalServerError().build();
     }
 }
