@@ -57,6 +57,9 @@ public class MemberController {
 
     // 회원 목록 상세 보기 컨트롤러
     @GetMapping
-    public List<Member> view(String id) {
-        return service.list();
+    public ResponseEntity<Member> view(String id) {
+        Member member = service.getMember(id);
+
+        return ResponseEntity.ok(member);
     }
+}

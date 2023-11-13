@@ -48,4 +48,11 @@ public class MemberService {
     public List<Member> list() {
         return mapper.selectAll();
     }
+
+    // 회원 정보 보기 서비스
+    public Member getMember(String id) {
+        return mapper.selectById(id);
+    }
+
+
 }
