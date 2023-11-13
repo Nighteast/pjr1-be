@@ -10,8 +10,8 @@ public interface MemberMapper {
 
     // 회원가입 기능 매퍼
     @Insert("""
-            INSERT INTO member (id, password, email)
-            VALUES (#{id}, #{password}, #{email})
+            INSERT INTO member (id, password, nickName, email)
+            VALUES (#{id}, #{password},#{nickName}, #{email})
             """)
     int insert(Member member);
 
@@ -21,6 +21,13 @@ public interface MemberMapper {
             WHERE id = #{id}
             """)
     String selectId(String id);
+
+    // nickName 중복 확인 매퍼
+    @Select("""
+            SELECT nickName FROM member
+            WHERE nickName = #{nickName}
+            """)
+    String selectNickName(String nickName);
 
     // 이메일 중복 확인 매퍼
     @Select("""
@@ -64,4 +71,5 @@ public interface MemberMapper {
             </script>
             """)
     int update(Member member);
+
 }

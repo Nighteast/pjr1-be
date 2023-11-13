@@ -22,6 +22,11 @@ public class MemberService {
         return mapper.selectId(id);
     }
 
+    // nickName 중복 확인 서비스
+    public String getNickName(String nickName) {
+        return mapper.selectNickName(nickName);
+    }
+
     // 이메일 중복 확인 서비스
     public String getEmail(String email) {
         return mapper.selectEmail(email);
@@ -71,4 +76,6 @@ public class MemberService {
 
         return mapper.update(member) == 1;
     }
+
+
 }

@@ -39,6 +39,16 @@ public class MemberController {
         }
     }
 
+    // nickName 중복 체크 기능 컨트롤러
+    @GetMapping(value = "check", params = "nickName")
+    public ResponseEntity checkNickName(String nickName) {
+        if (service.getNickName(nickName) == null) {
+            return ResponseEntity.notFound().build();
+        } else {
+            return ResponseEntity.ok().build();
+        }
+    }
+
     // email 중복 체크 기능 컨트롤러
     @GetMapping(value = "check", params = "email")
     public ResponseEntity checkEmail(String email) {
