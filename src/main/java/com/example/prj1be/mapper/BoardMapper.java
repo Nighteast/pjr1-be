@@ -46,4 +46,11 @@ public interface BoardMapper {
             WHERE id = #{id}
             """)
     int update(Board board);
+
+    // 회원 탈퇴 시 게시글 삭제
+    @Delete("""
+            DELETE FROM board
+            WHERE writer = #{writer}
+            """)
+    int deleteByWriter(String writer);
 }
