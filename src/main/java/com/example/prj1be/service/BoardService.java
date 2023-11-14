@@ -31,9 +31,7 @@ public class BoardService {
         if (board.getTitle() == null || board.getTitle().isBlank()) {
             return false;
         }
-        if (board.getWriter() == null || board.getWriter().isBlank()) {
-            return false;
-        }
+
         // 그 이외 true 반환
         return true;
     }
