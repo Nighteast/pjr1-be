@@ -1,5 +1,6 @@
 package com.example.prj1be.service;
 
+import com.example.prj1be.domain.Auth;
 import com.example.prj1be.domain.Member;
 import com.example.prj1be.mapper.BoardMapper;
 import com.example.prj1be.mapper.MemberMapper;
@@ -91,8 +92,14 @@ public class MemberService {
     public boolean login(Member member, WebRequest request) {
         Member dbMember = mapper.selectById(member.getId());
 
+
         if (dbMember != null) {
             if (dbMember.getPassword().equals(member.getPassword())) {
+
+                // 멤버아이디로 권한 정보들을 얻어 권한을 추가한다.
+                List<Auth> auth = mapper.selectAuthById(member.getId());
+                dbMember.setAuth(auth);
+
                 dbMember.setPassword("");
                 request.setAttribute("login", dbMember, RequestAttributes.SCOPE_SESSION);
                 return true;
