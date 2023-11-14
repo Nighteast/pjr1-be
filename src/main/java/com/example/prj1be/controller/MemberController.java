@@ -7,6 +7,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.context.request.WebRequest;
 
 import java.util.List;
 
@@ -87,7 +88,7 @@ public class MemberController {
         if (service.deleteMember(id)) {
             return ResponseEntity.ok().build();
         }
-            return ResponseEntity.internalServerError().build();
+        return ResponseEntity.internalServerError().build();
     }
 
     // 회원목록상세 - 회원수정
@@ -104,8 +105,8 @@ public class MemberController {
 
     // 회원 로그인 기능
     @PostMapping("login")
-    public ResponseEntity login(@RequestBody Member member) {
-        if (service.login(member)) {
+    public ResponseEntity login(@RequestBody Member member, WebRequest request) {
+        if (service.login(member, request)) {
             return ResponseEntity.ok().build();
         } else {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
