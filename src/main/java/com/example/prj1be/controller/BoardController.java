@@ -5,6 +5,7 @@ import com.example.prj1be.domain.Member;
 import com.example.prj1be.service.BoardService;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -22,14 +23,16 @@ public class BoardController {
     public ResponseEntity add(@RequestBody Board board,
                               @SessionAttribute(value = "login", required = false) Member login) {
 
-        System.out.println("login = " + login);
+        if (login == null) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        }
 
         // 인증이 false면 badRequest 응답 보내기
         if (!service.validate(board)) {
             return ResponseEntity.badRequest().build();
         }
         // 저장이 true면 ok응답, false면 internalServerError응답
-        if (service.save(board)) {
+        if (service.save(board, login)) {
             return ResponseEntity.ok().build();
         } else {
             return ResponseEntity.internalServerError().build();

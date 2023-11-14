@@ -1,6 +1,7 @@
 package com.example.prj1be.service;
 
 import com.example.prj1be.domain.Board;
+import com.example.prj1be.domain.Member;
 import com.example.prj1be.mapper.BoardMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -14,7 +15,9 @@ public class BoardService {
     private final BoardMapper mapper;
 
     // 게시글 작성 후 저장 서비스
-    public boolean save(Board board) {
+    public boolean save(Board board, Member login) {
+        board.setWriter(login.getId());
+
         return mapper.insert(board) == 1;
     }
 
