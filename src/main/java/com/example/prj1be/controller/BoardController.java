@@ -53,7 +53,18 @@ public class BoardController {
 
     // 게시글 삭제 기능
     @DeleteMapping("remove/{id}")
-    public ResponseEntity remove(@PathVariable Integer id) {
+    public ResponseEntity remove(@PathVariable Integer id,
+                                 @SessionAttribute(value = "login", required = false) Member login) {
+        // 401 권한없음, 로그인 하지 않았음.
+        if (login == null) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        }
+
+        // 403 접근권한 없음, 본인 아이디가 아님
+        if (!service.hasAccess(id, login)) {
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
+        }
+
         // remove가 true면 ok응답, false면 internalServerError응답
         if (service.remove(id)) {
             return ResponseEntity.ok().build();
@@ -64,7 +75,18 @@ public class BoardController {
 
     // 게시글 수정 기능
     @PutMapping("edit")
-    public ResponseEntity edit(@RequestBody Board board) {
+    public ResponseEntity edit(@RequestBody Board board,
+                               @SessionAttribute(value = "login", required = false) Member login) {
+        // 401
+        if (login == null) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        }
+
+        // 403
+        if (!service.hasAccess(board.getId(), login)) {
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
+        }
+
         if (service.validate(board)) {
             if (service.update(board)) {
                 return ResponseEntity.ok().build();

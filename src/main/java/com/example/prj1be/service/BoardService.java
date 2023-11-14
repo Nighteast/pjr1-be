@@ -54,8 +54,16 @@ public class BoardService {
         return mapper.deleteById(id) == 1;
     }
 
+    // 삭제 시 ID 권한 확인
+    public boolean hasAccess(Integer id, Member login) {
+        Board board = mapper.selectById(id);
+
+        return board.getWriter().equals(login.getId());
+    }
+
     // 게시글 수정 서비스
     public boolean update(Board board) {
         return mapper.update(board) == 1;
     }
+
 }
