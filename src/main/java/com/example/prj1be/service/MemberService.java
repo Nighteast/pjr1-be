@@ -78,4 +78,16 @@ public class MemberService {
     }
 
 
+    // 회원 로그인 서비스
+    public boolean login(Member member) {
+        Member dbMember = mapper.selectById(member.getId());
+
+        if (dbMember != null) {
+            if (dbMember.getPassword().equals(member.getPassword())) {
+                return true;
+            }
+        }
+
+        return false;
+    }
 }
