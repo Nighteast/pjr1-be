@@ -18,7 +18,8 @@ public interface BoardMapper {
     @Select("""
             SELECT b.id, 
                    b.title, 
-                   m.nickName writer, 
+                   b.writer,
+                   m.nickName, 
                    b.inserted
             FROM board b JOIN member m ON b.writer = m.id
             ORDER BY b.id DESC
@@ -27,7 +28,12 @@ public interface BoardMapper {
 
     // 한 게시글 보기 맵퍼
     @Select("""
-            SELECT b.id, b.title, b.content, m.nickName writer, b.inserted
+            SELECT b.id, 
+                   b.title, 
+                   b.content, 
+                   b.writer,
+                   m.nickName, 
+                   b.inserted
             FROM board b JOIN member m on b.writer = m.id
             WHERE b.id = #{id}
             """)
