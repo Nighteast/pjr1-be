@@ -16,17 +16,20 @@ public interface BoardMapper {
 
     // 게시글 리스트 보기 맵퍼
     @Select("""
-            SELECT id, title, writer, inserted
-            FROM board
-            ORDER BY id DESC
+            SELECT b.id, 
+                   b.title, 
+                   m.nickName writer, 
+                   b.inserted
+            FROM board b JOIN member m ON b.writer = m.id
+            ORDER BY b.id DESC
             """)
     List<Board> selectAll();
 
     // 한 게시글 보기 맵퍼
     @Select("""
-            SELECT id, title, content, writer, inserted
-            FROM board
-            WHERE id = #{id}
+            SELECT b.id, b.title, b.content, m.nickName writer, b.inserted
+            FROM board b JOIN member m on b.writer = m.id
+            WHERE b.id = #{id}
             """)
     Board selectById(Integer id);
 
