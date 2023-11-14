@@ -94,4 +94,9 @@ public class MemberService {
 
         return false;
     }
+
+    // 회원 권한 검증 서비스
+    public boolean hasAccess(String id, Member login) {
+        return login.getId().equals(id);
+    }
 }
