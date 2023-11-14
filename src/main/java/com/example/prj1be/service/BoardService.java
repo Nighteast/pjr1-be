@@ -13,6 +13,7 @@ import java.util.List;
 public class BoardService {
 
     private final BoardMapper mapper;
+    private final MemberService memberService;
 
     // 게시글 작성 후 저장 서비스
     public boolean save(Board board, Member login) {
@@ -56,10 +57,16 @@ public class BoardService {
 
     // 삭제 시 ID 권한 확인
     public boolean hasAccess(Integer id, Member login) {
+        if (memberService.isAdmin(login)) {
+            return true;
+        }
+
         Board board = mapper.selectById(id);
 
         return board.getWriter().equals(login.getId());
     }
+
+
 
     // 게시글 수정 서비스
     public boolean update(Board board) {
