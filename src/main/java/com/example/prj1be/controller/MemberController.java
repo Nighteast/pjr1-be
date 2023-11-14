@@ -107,7 +107,7 @@ public class MemberController {
     // 회원목록상세 - 회원수정
     @PutMapping("edit")
     public ResponseEntity edit(@RequestBody Member member,
-                               @SessionAttribute(value = "login",required = false)Member login) {
+                               @SessionAttribute(value = "login", required = false) Member login) {
 
         if (login == null) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
@@ -139,5 +139,11 @@ public class MemberController {
         if (session != null) {
             session.invalidate();
         }
+    }
+
+    // 로그인 정보 건네주기. 서버에서는 세션저장, 클라이언트에서는 context 저장
+    @GetMapping("login")
+    public Member login(@SessionAttribute(value = "login", required = false) Member login) {
+        return login;
     }
 }
