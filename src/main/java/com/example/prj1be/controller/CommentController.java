@@ -1,5 +1,6 @@
 package com.example.prj1be.controller;
 
+import com.example.prj1be.domain.Board;
 import com.example.prj1be.domain.Comment;
 import com.example.prj1be.domain.Member;
 import com.example.prj1be.service.CommentService;
@@ -57,6 +58,30 @@ public class CommentController {
             }
         } else {
             return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
+        }
+    }
+
+    @PutMapping("{id}")
+    public ResponseEntity edit(@RequestBody Comment comment,
+                               @SessionAttribute(value = "login", required = false) Member login) {
+        // 401
+        if (login == null) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        }
+
+        // 403
+        if (!service.hasAccess(comment.getId(), login)) {
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
+        }
+
+        if (service.validate(comment)) {
+            if (service.update(comment)) {
+                return ResponseEntity.ok().build();
+            } else {
+                return ResponseEntity.internalServerError().build();
+            }
+        } else {
+            return ResponseEntity.badRequest().build();
         }
     }
 }

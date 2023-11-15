@@ -36,10 +36,12 @@ public class CommentService {
         return true;
     }
 
+    // 댓글
     public List<Comment> list(Integer boardId) {
         return mapper.selectByBoardId(boardId);
     }
 
+    // 댓글 삭제
     public boolean remove(Integer id) {
         return mapper.deleteById(id) == 1;
     }
@@ -49,5 +51,10 @@ public class CommentService {
         Comment comment = mapper.selectById(id);
 
         return comment.getMemberId().equals(login.getId());
+    }
+
+    // 댓글 수정
+    public boolean update(Comment comment) {
+        return mapper.editById(comment) == 1;
     }
 }
