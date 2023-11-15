@@ -40,7 +40,14 @@ public class CommentService {
         return mapper.selectByBoardId(boardId);
     }
 
-    public void remove(Integer id) {
-        mapper.deleteById(id);
+    public boolean remove(Integer id) {
+        return mapper.deleteById(id) == 1;
+    }
+
+    // 댓글 권한 검증
+    public boolean hasAccess(Integer id, Member login) {
+        Comment comment = mapper.selectById(id);
+
+        return comment.getMemberId().equals(login.getId());
     }
 }
