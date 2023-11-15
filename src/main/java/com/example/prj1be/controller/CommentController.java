@@ -17,7 +17,8 @@ public class CommentController {
 
     @PostMapping("add")
     public ResponseEntity add(@RequestBody Comment comment,
-                    @SessionAttribute(value = "login", required = false) Member login) {
+                              @SessionAttribute(value = "login", required = false) Member login) {
+
         if (login == null) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
         }
@@ -28,6 +29,7 @@ public class CommentController {
             } else {
                 return ResponseEntity.internalServerError().build();
             }
+
         } else {
             return ResponseEntity.badRequest().build();
         }
