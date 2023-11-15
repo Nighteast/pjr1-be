@@ -1,6 +1,7 @@
 package com.example.prj1be.mapper;
 
 import com.example.prj1be.domain.Comment;
+import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
@@ -23,4 +24,10 @@ public interface CommentMapper {
             WHERE boardId = #{boardId}
             """)
     List<Comment> selectByBoardId(Integer boardId);
+
+    @Delete("""
+            DELETE FROM comment
+            WHERE id = #{id}
+            """)
+    int deleteById(Integer id);
 }
