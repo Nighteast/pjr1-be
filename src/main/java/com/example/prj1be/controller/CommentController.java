@@ -41,4 +41,9 @@ public class CommentController {
     public List<Comment> list(@RequestParam("id") Integer boardId) {
         return service.list(boardId);
     }
+
+    @DeleteMapping("delete")
+    public void delete(@RequestParam("id") Integer commentId) {
+        service.delete(commentId);
+    }
 }
