@@ -16,12 +16,15 @@ public interface BoardMapper {
 
     // 게시글 리스트 보기 맵퍼
     @Select("""
-            SELECT b.id, 
-                   b.title, 
+            SELECT b.id,
+                   b.title,
                    b.writer,
-                   m.nickName, 
-                   b.inserted
+                   m.nickName,
+                   b.inserted,
+                   COUNT(c.id) countComment
             FROM board b JOIN member m ON b.writer = m.id
+                         LEFT OUTER JOIN comment c on b.id = c.boardId
+            GROUP BY b.id
             ORDER BY b.id DESC
             """)
     List<Board> selectAll();
