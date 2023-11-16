@@ -37,6 +37,7 @@ public class CommentController {
         }
     }
 
+    // 댓글 리스트 보기
     @GetMapping("list")
     public List<Comment> list(@RequestParam("id") Integer boardId) {
         return service.list(boardId);
