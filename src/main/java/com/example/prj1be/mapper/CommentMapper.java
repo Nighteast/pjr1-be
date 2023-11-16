@@ -44,4 +44,11 @@ public interface CommentMapper {
             WHERE id = #{id}
             """)
     int update(Comment comment);
+
+    // 게시글 삭제 전 댓글 삭제
+    @Delete("""
+            DELETE FROM comment
+            WHERE boardId = #{id}
+            """)
+    void deleteByBoardId(Integer id);
 }

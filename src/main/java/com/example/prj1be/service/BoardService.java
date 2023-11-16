@@ -3,6 +3,7 @@ package com.example.prj1be.service;
 import com.example.prj1be.domain.Board;
 import com.example.prj1be.domain.Member;
 import com.example.prj1be.mapper.BoardMapper;
+import com.example.prj1be.mapper.CommentMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -14,6 +15,7 @@ public class BoardService {
 
     private final BoardMapper mapper;
     private final MemberService memberService;
+    private final CommentMapper commentMapper;
 
     // 게시글 작성 후 저장 서비스
     public boolean save(Board board, Member login) {
@@ -52,6 +54,9 @@ public class BoardService {
 
     // 게시글 삭제 서비스
     public boolean remove(Integer id) {
+        // TODO : 게시물 삭제 전에 댓글 삭제
+        commentMapper.deleteByBoardId(id);
+
         return mapper.deleteById(id) == 1;
     }
 
