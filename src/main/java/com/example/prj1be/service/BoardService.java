@@ -14,7 +14,6 @@ import java.util.List;
 public class BoardService {
 
     private final BoardMapper mapper;
-    private final MemberService memberService;
     private final CommentMapper commentMapper;
 
     // 게시글 작성 후 저장 서비스
@@ -62,7 +61,11 @@ public class BoardService {
 
     // 삭제 시 ID 권한 확인
     public boolean hasAccess(Integer id, Member login) {
-        if (memberService.isAdmin(login)) {
+        if (login == null) {
+            return false;
+        }
+
+        if (login.isAdmin()) {
             return true;
         }
 

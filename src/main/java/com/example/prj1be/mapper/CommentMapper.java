@@ -51,4 +51,11 @@ public interface CommentMapper {
             WHERE boardId = #{boardId}
             """)
     int deleteByBoardId(Integer boardId);
+
+    // 회원 탈퇴 전 댓글들 삭제
+    @Delete("""
+            DELETE FROM comment
+            WHERE memberId = #{memberId}
+            """)
+    int deleteByMemberId(String memberId);
 }

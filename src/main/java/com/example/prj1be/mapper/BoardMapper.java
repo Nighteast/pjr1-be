@@ -65,4 +65,11 @@ public interface BoardMapper {
             WHERE writer = #{writer}
             """)
     int deleteByWriter(String writer);
+
+    // 멤버가 작성한 게시물들 조회
+    @Select("""
+            SELECT id FROM board
+            WHERE writer = #{writer}
+            """)
+    List<Integer> selectIdListByMemberId(String writer);
 }
