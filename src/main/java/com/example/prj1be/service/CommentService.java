@@ -44,7 +44,7 @@ public class CommentService {
         return mapper.deleteById(id) == 1;
     }
 
-    // 댓글 권한 검증
+    // 댓글 삭제 권한 검증
     public boolean hasAccess(Integer id, Member login) {
         Comment comment = mapper.selectById(id);
 
