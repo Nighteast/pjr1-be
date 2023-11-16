@@ -68,7 +68,7 @@ public class MemberService {
     }
 
 
-    // 회원 정보 보기 - 회원 탈퇴 서비스
+    // 회원 탈퇴 서비스
     public boolean deleteMember(String id) {
         // 이 멤버가 작성한 댓글 삭제
         commentMapper.deleteByMemberId(id);
@@ -85,7 +85,7 @@ public class MemberService {
         return mapper.deleteById(id) == 1;
     }
 
-    // 회원 정보 보기 - 회원 수정
+    // 회원 수정
     public boolean update(Member member) {
 //        // password 변경 안 했을 시 적용
 //        Member oldMember = mapper.selectById(member.getId());

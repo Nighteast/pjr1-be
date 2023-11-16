@@ -86,9 +86,10 @@ public class MemberController {
         return ResponseEntity.ok(member);
     }
 
-    // 회원 목록 상세보기 - 회원 탈퇴 기능
+    // 회원 탈퇴
     @DeleteMapping
     public ResponseEntity delete(String id,
+                                 HttpSession session,
                                  @SessionAttribute(value = "login", required = false) Member login) {
         if (login == null) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build(); // 401
@@ -99,12 +100,13 @@ public class MemberController {
         }
 
         if (service.deleteMember(id)) {
+            session.invalidate();
             return ResponseEntity.ok().build();
         }
         return ResponseEntity.internalServerError().build();
     }
 
-    // 회원목록상세 - 회원수정
+    // 회원 정보 수정
     @PutMapping("edit")
     public ResponseEntity edit(@RequestBody Member member,
                                @SessionAttribute(value = "login", required = false) Member login) {
@@ -142,6 +144,7 @@ public class MemberController {
     }
 
     // 로그인 정보 건네주기. 서버에서는 세션저장, 클라이언트에서는 context 저장
+    // 서버에 있는 세션 객체를 리턴해준다. 클라이언트에게 정보 갱신.
     @GetMapping("login")
     public Member login(@SessionAttribute(value = "login", required = false) Member login) {
         return login;
