@@ -54,7 +54,6 @@ public class BoardService {
 
     // 게시글 삭제 서비스
     public boolean remove(Integer id) {
-        // TODO : 게시물 삭제 전에 댓글 삭제
         commentMapper.deleteByBoardId(id);
 
         return mapper.deleteById(id) == 1;
