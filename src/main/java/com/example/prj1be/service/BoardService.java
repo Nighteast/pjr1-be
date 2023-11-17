@@ -8,7 +8,9 @@ import com.example.prj1be.mapper.LikeMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Service
 @RequiredArgsConstructor
@@ -44,11 +46,25 @@ public class BoardService {
     }
 
     // 게시글 리스트 보기 서비스
-    public List<Board> list(Integer page) {
+    public Map<String, Object> list(Integer page) {
+        Map<String, Object> map = new HashMap<>();
+        Map<String, Object> pageInfo = new HashMap<>();
 
-        int from = (page -1) * 10;
+        // 게시판 전체 글 갯수
+        int countAll = mapper.countAll();
+        int lastPageNumber = (countAll - 1) / 10 + 1;
+        int startPageNumber = (page - 1) / 10 * 10 + 1;
+        int endPageNumber = startPageNumber + 9;
+        endPageNumber = Math.min(endPageNumber, lastPageNumber);
 
-        return mapper.selectAll(from);
+        pageInfo.put("startPageNumber", startPageNumber);
+        pageInfo.put("lastPageNumber", lastPageNumber);
+
+
+        int from = (page - 1) * 10;
+        map.put("boardList", mapper.selectAll(from));
+        map.put("pageInfo", pageInfo);
+        return map;
     }
 
     // 한 게시글 보기 서비스
@@ -81,7 +97,6 @@ public class BoardService {
 
         return board.getWriter().equals(login.getId());
     }
-
 
 
     // 게시글 수정 서비스
