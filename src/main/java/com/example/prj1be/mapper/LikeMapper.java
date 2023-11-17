@@ -4,6 +4,7 @@ import com.example.prj1be.domain.Like;
 import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Select;
 
 @Mapper
 public interface LikeMapper {
@@ -22,4 +23,11 @@ public interface LikeMapper {
             VALUES (#{memberId},#{boardId})
             """)
     int insert(Like like);
+
+    // 게시물의 좋아요 갯수 새기
+    @Select("""
+            SELECT COUNT(id) FROM boardlike
+            WHERE boardId = #{boardId}
+            """)
+    int countByBoardId(Integer boardId);
 }
