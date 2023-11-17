@@ -44,8 +44,11 @@ public class BoardService {
     }
 
     // 게시글 리스트 보기 서비스
-    public List<Board> list() {
-        return mapper.selectAll();
+    public List<Board> list(Integer page) {
+
+        int from = (page -1) * 10;
+
+        return mapper.selectAll(from);
     }
 
     // 한 게시글 보기 서비스
