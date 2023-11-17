@@ -32,10 +32,11 @@ public interface LikeMapper {
     int countByBoardId(Integer boardId);
 
     @Select("""
-            SELECT * FROM boardlike
-            WHERE 
+        SELECT * 
+        FROM boardLike
+        WHERE 
                 boardId = #{boardId}
-            AND memberId = #{memberId}
-            """)
+            AND memberId = #{memberId}   
+        """)
     Like selectByBoardIdAndMemberId(Integer boardId, String memberId);
 }
