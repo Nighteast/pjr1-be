@@ -8,6 +8,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 import java.util.Map;
@@ -21,7 +22,8 @@ public class BoardController {
 
     // 게시글 작성 기능
     @PostMapping("add")
-    public ResponseEntity add(@RequestBody Board board,
+    public ResponseEntity add(Board board,
+                              @RequestParam(value = "file",required = false) MultipartFile file,
                               @SessionAttribute(value = "login", required = false) Member login) {
 
         if (login == null) {
