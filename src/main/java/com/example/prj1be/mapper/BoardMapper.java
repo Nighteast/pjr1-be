@@ -12,6 +12,7 @@ public interface BoardMapper {
             INSERT INTO board (title, content, writer)
             Values (#{title}, #{content}, #{writer})
             """)
+    @Options(useGeneratedKeys = true, keyProperty = "id")
     int insert(Board board);
 
     // 게시글 리스트 보기 맵퍼

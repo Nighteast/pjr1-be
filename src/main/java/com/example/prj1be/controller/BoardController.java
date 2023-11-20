@@ -3,14 +3,12 @@ package com.example.prj1be.controller;
 import com.example.prj1be.domain.Board;
 import com.example.prj1be.domain.Member;
 import com.example.prj1be.service.BoardService;
-import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.util.List;
 import java.util.Map;
 
 @RestController
@@ -23,8 +21,15 @@ public class BoardController {
     // 게시글 작성 기능
     @PostMapping("add")
     public ResponseEntity add(Board board,
-                              @RequestParam(value = "file",required = false) MultipartFile file,
+                              @RequestParam(value = "files[]", required = false) MultipartFile[] files,
                               @SessionAttribute(value = "login", required = false) Member login) {
+
+        if (files != null) {
+            for (int i = 0; i < files.length; i++) {
+                System.out.println("file = " + files[i].getOriginalFilename());
+                System.out.println("file.getSize() = " + files[i].getSize());
+            }
+        }
 
         if (login == null) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
@@ -35,7 +40,7 @@ public class BoardController {
             return ResponseEntity.badRequest().build();
         }
         // 저장이 true면 ok응답, false면 internalServerError응답
-        if (service.save(board, login)) {
+        if (service.save(board,files, login)) {
             return ResponseEntity.ok().build();
         } else {
             return ResponseEntity.internalServerError().build();
