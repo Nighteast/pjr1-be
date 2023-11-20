@@ -16,9 +16,9 @@ import software.amazon.awssdk.services.s3.S3Client;
 import software.amazon.awssdk.services.s3.model.ObjectCannedACL;
 import software.amazon.awssdk.services.s3.model.PutObjectRequest;
 
-import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @Service
@@ -33,7 +33,9 @@ public class BoardService {
 
     private final S3Client s3;
 
-    @Value("${aw3.s3.bucket.name}")
+    @Value("${image.file.prefix}")
+    private String urlPrefix;
+    @Value("${aws.s3.bucket.name}")
     private String bucket;
 
     // 게시글 작성 후 저장 서비스
@@ -130,7 +132,17 @@ public class BoardService {
 
     // 한 게시글 보기 서비스
     public Board get(Integer id) {
-        return mapper.selectById(id);
+        Board board = mapper.selectById(id);
+
+        List<String> fileNames = fileMapper.selectNamesByBoardId(id);
+
+        fileNames = fileNames.stream()
+                        .map(name -> urlPrefix + "prj1/" + id + "/" + name)
+                        .toList();
+
+        board.setFileNames(fileNames);
+
+        return board;
     }
 
     // 게시글 삭제 서비스
