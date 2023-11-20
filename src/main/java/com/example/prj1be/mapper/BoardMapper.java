@@ -27,11 +27,13 @@ public interface BoardMapper {
             FROM board b JOIN member m on b.writer = m.id
                         LEFT JOIN comment c on b.id = c.boardId
                         LEFT JOIN boardLike l on b.id = l.boardId
+            WHERE b.content LIKE #{keyword}
+                OR b.title LIKE #{keyword}
             GROUP BY b.id
             ORDER BY b.id DESC
             LIMIT #{from}, 10
             """)
-    List<Board> selectAll(Integer from);
+    List<Board> selectAll(Integer from, String keyword);
 
     // 한 게시글 보기 맵퍼
     @Select("""

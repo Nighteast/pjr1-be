@@ -9,7 +9,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 @Service
@@ -46,7 +45,9 @@ public class BoardService {
     }
 
     // 게시글 리스트 보기 서비스
-    public Map<String, Object> list(Integer page) {
+    // 게시글 페이지네이션
+    // 게시글 검색
+    public Map<String, Object> list(Integer page, String keyword) {
         Map<String, Object> map = new HashMap<>();
         Map<String, Object> pageInfo = new HashMap<>();
 
@@ -74,9 +75,8 @@ public class BoardService {
             pageInfo.put("initialPageNumber", initialPageNumber);
         }
 
-
         int from = (page - 1) * 10;
-        map.put("boardList", mapper.selectAll(from));
+        map.put("boardList", mapper.selectAll(from, "%" + keyword + "%"));
         map.put("pageInfo", pageInfo);
         return map;
     }
@@ -117,5 +117,4 @@ public class BoardService {
     public boolean update(Board board) {
         return mapper.update(board) == 1;
     }
-
 }

@@ -41,11 +41,15 @@ public class BoardController {
     }
 
     // 게시글 리스트 보기 기능
+    // 게시글 리스트 검색 기능
     // /api/board/list?p=2
+    // /api/board/list?k=java
     @GetMapping("list")
-    public Map<String, Object> list(@RequestParam(value = "p", defaultValue = "1") Integer page) {
+    public Map<String, Object> list(
+            @RequestParam(value = "p", defaultValue = "1") Integer page,
+            @RequestParam(value = "k", defaultValue = "") String keyword) {
 
-        return service.list(page);
+        return service.list(page, keyword);
     }
 
     // 한 게시글 보기 기능, id에 맞는 board값 가져오기
@@ -100,4 +104,5 @@ public class BoardController {
             return ResponseEntity.badRequest().build();
         }
     }
+
 }
