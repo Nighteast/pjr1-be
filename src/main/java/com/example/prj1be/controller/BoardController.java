@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.Map;
 
 @RestController
@@ -22,7 +23,7 @@ public class BoardController {
     @PostMapping("add")
     public ResponseEntity add(Board board,
                               @RequestParam(value = "files[]", required = false) MultipartFile[] files,
-                              @SessionAttribute(value = "login", required = false) Member login) {
+                              @SessionAttribute(value = "login", required = false) Member login) throws IOException {
 
         if (files != null) {
             for (int i = 0; i < files.length; i++) {
@@ -40,7 +41,7 @@ public class BoardController {
             return ResponseEntity.badRequest().build();
         }
         // 저장이 true면 ok응답, false면 internalServerError응답
-        if (service.save(board,files, login)) {
+        if (service.save(board, files, login)) {
             return ResponseEntity.ok().build();
         } else {
             return ResponseEntity.internalServerError().build();

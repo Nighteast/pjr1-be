@@ -8,14 +8,17 @@ import com.example.prj1be.mapper.FileMapper;
 import com.example.prj1be.mapper.LikeMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
 @Service
 @RequiredArgsConstructor
+@Transactional(rollbackFor = Exception.class)
 public class BoardService {
 
     private final BoardMapper mapper;
@@ -24,7 +27,8 @@ public class BoardService {
     private final FileMapper fileMapper;
 
     // 게시글 작성 후 저장 서비스
-    public boolean save(Board board, MultipartFile[] files, Member login) {
+
+    public boolean save(Board board, MultipartFile[] files, Member login) throws IOException {
         // 게시물 입력
         board.setWriter(login.getId());
 
@@ -46,10 +50,9 @@ public class BoardService {
         return cnt == 1;
     }
 
-    private void upload(Integer boardId, MultipartFile file) {
+    private void upload(Integer boardId, MultipartFile file) throws IOException {
         // 파일 저장 경로
         // C:\Temp\prj1\게시물번호\파일명
-        try {
             File folder = new File("C:\\Temp\\prj1\\" + boardId);
             if (!folder.exists()) {
                 folder.mkdirs();
@@ -58,10 +61,6 @@ public class BoardService {
             String path = folder.getAbsolutePath() + "\\" + file.getOriginalFilename();
             File des = new File(path);
             file.transferTo(des);
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
 
     }
 
