@@ -88,6 +88,13 @@ public class BoardController {
         }
     }
 
+    // 게시글 수정 화면에서 이미지 삭제
+    @DeleteMapping("remove/image/{id}")
+    public void removeImage(@PathVariable Integer id) {
+        service.removeImage(id);
+    }
+
+
     // 게시글 수정 기능
     @PutMapping("edit")
     public ResponseEntity edit(@RequestBody Board board,

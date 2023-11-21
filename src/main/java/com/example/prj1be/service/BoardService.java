@@ -163,6 +163,12 @@ public class BoardService {
         return mapper.deleteById(id) == 1;
     }
 
+    // 게시글 수정 시 이미지 삭제
+    public void removeImage(Integer id) {
+        // 첨부파일 이미지 지우기 (S3, 레코드)
+        deleteFile(id);
+    }
+
     private void deleteFile(Integer id) {
         // 파일명 조회
         List<BoardFile> boardFiles = fileMapper.selectNamesByBoardId(id);
