@@ -55,7 +55,6 @@ public class BoardService {
                 fileMapper.insert(board.getId(), files[i].getOriginalFilename());
 
                 // 실제 파일을 S3 bucket에 upload
-                // 일단 local에 저장
                 upload(board.getId(), files[i]);
             }
         }
@@ -200,11 +199,20 @@ public class BoardService {
 
 
     // 게시글 수정 서비스
-    public boolean update(Board board) {
+    public boolean update(Board board, MultipartFile[] files) throws IOException {
         // 기존 이미지 파일 삭제하기
         deleteFile(board.getId());
 
         // 새로운 파일 업로드 하기
+        if (files != null) {
+            for (int i = 0; i < files.length; i++) {
+                // boardId, name
+                fileMapper.insert(board.getId(), files[i].getOriginalFilename());
+
+                // 실제 파일을 S3 bucket에 upload
+                upload(board.getId(), files[i]);
+            }
+        }
 
         return mapper.update(board) == 1;
     }
