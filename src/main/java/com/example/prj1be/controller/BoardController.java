@@ -22,7 +22,7 @@ public class BoardController {
     // 게시글 작성 기능
     @PostMapping("add")
     public ResponseEntity add(Board board,
-                              @RequestParam(value = "files[]", required = false) MultipartFile[] files,
+                              @RequestParam(value = "uploadFiles[]", required = false) MultipartFile[] files,
                               @SessionAttribute(value = "login", required = false) Member login) throws IOException {
 
         if (files != null) {
