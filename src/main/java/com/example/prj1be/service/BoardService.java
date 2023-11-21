@@ -97,13 +97,13 @@ public class BoardService {
     // 게시글 리스트 보기 서비스
     // 게시글 페이지네이션
     // 게시글 검색
-    public Map<String, Object> list(Integer page, String keyword) {
+    public Map<String, Object> list(Integer page, String keyword, String category) {
         Map<String, Object> map = new HashMap<>();
         Map<String, Object> pageInfo = new HashMap<>();
 
         // 게시판 전체 글 갯수
         // int countAll = mapper.countAll();
-        int countAll = mapper.countAll("%" + keyword + "%"); // %%
+        int countAll = mapper.countAll("%" + keyword + "%", category); // %%
         int lastPageNumber = (countAll - 1) / 10 + 1;
         int startPageNumber = (page - 1) / 10 * 10 + 1;
         int endPageNumber = startPageNumber + 9;
@@ -127,7 +127,7 @@ public class BoardService {
         }
 
         int from = (page - 1) * 10;
-        map.put("boardList", mapper.selectAll(from, "%" + keyword + "%"));
+        map.put("boardList", mapper.selectAll(from, "%" + keyword + "%", category));
         map.put("pageInfo", pageInfo);
         return map;
     }

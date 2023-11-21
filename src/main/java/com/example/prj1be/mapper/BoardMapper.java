@@ -17,6 +17,7 @@ public interface BoardMapper {
 
     // 게시글 리스트 보기 맵퍼
     @Select("""
+            <script>
             SELECT b.id,
                 b.title,
                 b.content,
@@ -30,13 +31,22 @@ public interface BoardMapper {
                         LEFT JOIN comment c on b.id = c.boardId
                         LEFT JOIN boardLike l on b.id = l.boardId
                         LEFT JOIN boardFile f on b.id = f.boardId
-            WHERE b.content LIKE #{keyword}
-                OR b.title LIKE #{keyword}
+            WHERE 
+                <trim prefixOverrides="OR">
+                    <if test="category == 'all' or category == 'title'">
+                        OR title LIKE #{keyword}
+                    </if>
+                    <if test="category == 'all' or category == 'content'">
+                        OR content LIKE #{keyword}
+                    </if>
+                </trim>
+            
             GROUP BY b.id
             ORDER BY b.id DESC
             LIMIT #{from}, 10
+            </script>
             """)
-    List<Board> selectAll(Integer from, String keyword);
+    List<Board> selectAll(Integer from, String keyword, String category);
 
     // 한 게시글 보기 맵퍼
     @Select("""
@@ -82,9 +92,18 @@ public interface BoardMapper {
     List<Integer> selectIdListByMemberId(String writer);
 
     @Select("""
+            <script>
             SELECT COUNT(*) FROM board
-            WHERE title LIKE #{keyword}
-                OR content LIKE #{keyword}
+            WHERE 
+                <trim prefixOverrides="OR">
+                    <if test="category == 'all' or category == 'title'">
+                        OR title LIKE #{keyword}
+                    </if>
+                    <if test="category == 'all' or category == 'content'">
+                        OR content LIKE #{keyword}
+                    </if>
+                </trim>
+            </script>
             """)
-    int countAll(String keyword);
+    int countAll(String keyword, String category);
 }

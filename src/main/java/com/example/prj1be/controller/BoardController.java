@@ -56,9 +56,10 @@ public class BoardController {
     @GetMapping("list")
     public Map<String, Object> list(
             @RequestParam(value = "p", defaultValue = "1") Integer page,
-            @RequestParam(value = "k", defaultValue = "") String keyword) {
+            @RequestParam(value = "k", defaultValue = "") String keyword,
+            @RequestParam(value = "c", defaultValue = "all") String category) {
 
-        return service.list(page, keyword);
+        return service.list(page, keyword, category);
     }
 
     // 한 게시글 보기 기능, id에 맞는 board값 가져오기
