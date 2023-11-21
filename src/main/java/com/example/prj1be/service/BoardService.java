@@ -164,9 +164,25 @@ public class BoardService {
     }
 
     // 게시글 수정 시 이미지 삭제
-    public void removeImage(Integer id) {
+    public void removeImage(Integer fileId) {
         // 첨부파일 이미지 지우기 (S3, 레코드)
-        deleteFile(id);
+        // 파일명 조회
+        List<BoardFile> boardFiles = fileMapper.selectNamesByFileId(fileId);
+
+        // s3 bucket objects 지우기
+        for (BoardFile file : boardFiles) {
+            String key = "prj1/" + file.getBoardId() + "/" + file.getName();
+
+            DeleteObjectRequest objectRequest = DeleteObjectRequest.builder()
+                    .bucket(bucket)
+                    .key(key)
+                    .build();
+
+            s3.deleteObject(objectRequest);
+        }
+
+        // 첨부파일 이미지 레코드 지우기
+        fileMapper.deleteByFileId(fileId);
     }
 
     private void deleteFile(Integer id) {
