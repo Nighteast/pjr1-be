@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.util.List;
 import java.util.Map;
 
 @RestController
@@ -90,7 +91,9 @@ public class BoardController {
 
     // 게시글 수정 기능
     @PutMapping("edit")
-    public ResponseEntity edit(@RequestBody Board board,
+    public ResponseEntity edit(Board board,
+                               @RequestParam(value = "uploadFiles[]", required = false) MultipartFile[] uploadFiles,
+                               @RequestParam(value = "removeFileIds[]",required = false) List<Integer> removeFileIds,
                                @SessionAttribute(value = "login", required = false) Member login) {
         // 401
         if (login == null) {
