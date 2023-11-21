@@ -14,6 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 import software.amazon.awssdk.core.sync.RequestBody;
 import software.amazon.awssdk.services.s3.S3Client;
+import software.amazon.awssdk.services.s3.model.DeleteObjectRequest;
 import software.amazon.awssdk.services.s3.model.ObjectCannedACL;
 import software.amazon.awssdk.services.s3.model.PutObjectRequest;
 
@@ -155,10 +156,31 @@ public class BoardService {
         // 좋아요 레코드 지우기
         likeMapper.deleteByBoardId(id);
 
-        // 첨부파일 이미지 레코드 지우기
-        fileMapper.deleteByBoardId(id);
+        // 첨부파일 이미지 지우기 (S3, 레코드)
+        deleteFile(id);
+
 
         return mapper.deleteById(id) == 1;
+    }
+
+    private void deleteFile(Integer id) {
+        // 파일명 조회
+        List<BoardFile> boardFiles = fileMapper.selectNamesByBoardId(id);
+
+        // s3 bucket objects 지우기
+        for (BoardFile file : boardFiles) {
+            String key = "prj1" + id + "/" + file.getName();
+
+            DeleteObjectRequest objectRequest = DeleteObjectRequest.builder()
+                    .bucket(bucket)
+                    .key(key)
+                    .build();
+
+            s3.deleteObject(objectRequest);
+        }
+
+        // 첨부파일 이미지 레코드 지우기
+        fileMapper.deleteByBoardId(id);
     }
 
     // 삭제 시 ID 권한 확인
