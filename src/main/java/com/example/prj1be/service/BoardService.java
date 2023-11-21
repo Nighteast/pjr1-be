@@ -201,6 +201,11 @@ public class BoardService {
 
     // 게시글 수정 서비스
     public boolean update(Board board) {
+        // 기존 이미지 파일 삭제하기
+        deleteFile(board.getId());
+
+        // 새로운 파일 업로드 하기
+
         return mapper.update(board) == 1;
     }
 }
