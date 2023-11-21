@@ -169,7 +169,7 @@ public class BoardService {
 
         // s3 bucket objects 지우기
         for (BoardFile file : boardFiles) {
-            String key = "prj1" + id + "/" + file.getName();
+            String key = "prj1/" + id + "/" + file.getName();
 
             DeleteObjectRequest objectRequest = DeleteObjectRequest.builder()
                     .bucket(bucket)
